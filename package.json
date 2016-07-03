@@ -4,7 +4,6 @@
   "description": "Crossover Video Portal",
   "keywords": [],
   "author": "Cheng Kui Qiang <ck.93gm@gmail.com>",
-  "homepage": "https://github.com/datatypevoid/vulgar",
   "license": "MIT",
   "scripts": {
     "rimraf": "rimraf",
@@ -130,10 +129,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/datatypevoid/vulgar.git"
+    "url": "https://github.com/kuiqiang/cvp.git"
   },
   "bugs": {
-    "url": "https://github.com/datatypevoid/vulgar/issues"
+    "url": "https://github.com/kuiqiang/cvp/issues"
   },
   "engines": {
     "node": ">= 4.2.1",
