@@ -1,5 +1,5 @@
 import {HTTP_PROVIDERS} from "@angular/http";
-import {APP_ROUTER_PROVIDERS} from "../../app/app.routes";
+import {APP_ROUTER_PROVIDERS} from "../../app/routes/app.routes";
 
 export const APPLICATION_PROVIDERS = [
     ...HTTP_PROVIDERS,

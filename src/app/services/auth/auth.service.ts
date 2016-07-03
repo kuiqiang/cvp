@@ -19,6 +19,17 @@ export class AuthService {
     constructor(private _http:Http) {
     }
 
+
+    /**
+     *  Handle error
+     *
+     * @param error
+     * @private
+     */
+    private static _handleError(error:any) {
+        console.error(error);
+    }
+
     /**
      * Authenticate user with given credentials
      *
@@ -30,19 +41,24 @@ export class AuthService {
         let headers = new Headers({"Content-Type": "application/json"});
         let credentials = JSON.stringify({username: username, password: MD5EncryptionComponent.getHash(password)});
 
-        // noinspection TypeScriptUnresolvedFunction
-        return this._http.post(AuthService._URL.login, credentials, {headers: headers})
-            .toPromise()
-            .then(response => {
-                let token:AuthToken = response.json();
-                if (token.status === "success") {
-                    this._sessionId = token.sessionId;
-                    this._username = token.username;
+        return new Promise((resolve, reject) => {
+            this._http.post(AuthService._URL.login, credentials, {headers: headers}).subscribe(
+                response => {
+                    let token:AuthToken = response.json();
+                    if (token.status === "success") {
+                        this._sessionId = token.sessionId;
+                        this._username = token.username;
+                        this._isAuthenticated = true;
+                        resolve();
+                    }
+                    reject(token.error);
+                },
+                error => {
+                    AuthService._handleError(error);
+                    reject(error);
                 }
-                // noinspection TypeScriptUnresolvedVariable
-                Promise.resolve(token.status === "success");
-            })
-            .catch(this._handleError);
+            );
+        });
     }
 
     /**
@@ -52,18 +68,5 @@ export class AuthService {
      */
     get isAuthenticated():boolean {
         return this._isAuthenticated;
-    }
-
-    /**
-     * Handle asynchronous errors
-     *
-     * @param error
-     * @returns {Promise}
-     * @private
-     */
-    private _handleError(error:any) {
-        console.error("An error occurred", error);
-        // noinspection TypeScriptUnresolvedVariable
-        return Promise.reject(error.message || error);
     }
 }
