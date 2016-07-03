@@ -1,5 +1,4 @@
 {
-  "rulesDirectory": "config/ts-rules/",
   "rules": {
     "member-access": false,
     "member-ordering": [
@@ -21,23 +20,15 @@
         "parameter": "nospace",
         "property-declaration": "nospace",
         "variable-declaration": "nospace"
-      },
-      {
-        "call-signature": "space",
-        "index-signature": "space",
-        "parameter": "space",
-        "property-declaration": "space",
-        "variable-declaration": "space"
       }
     ],
-
     "ban": false,
     "curly": false,
     "forin": true,
     "label-position": true,
     "label-undefined": true,
     "no-arg": true,
-    "no-bitwise": true,
+    "no-bitwise": false,
     "no-conditional-assignment": true,
     "no-console": [
       true,
@@ -72,7 +63,6 @@
       true,
       "check-module"
     ],
-
     "eofline": true,
     "indent": [
       true,
@@ -80,7 +70,7 @@
     ],
     "max-line-length": [
       true,
-      100
+      140
     ],
     "no-require-imports": false,
     "no-trailing-whitespace": true,
@@ -92,7 +82,6 @@
         "singleline": "never"
       }
     ],
-
     "align": false,
     "class-name": true,
     "comment-format": [
@@ -113,10 +102,13 @@
     ],
     "quotemark": [
       true,
-      "single",
+      "double",
       "avoid-escape"
     ],
-    "semicolon": [true, "always"],
+    "semicolon": [
+      true,
+      "always"
+    ],
     "variable-name": [
       true,
       "check-format",
@@ -128,9 +120,7 @@
       "check-branch",
       "check-decl",
       "check-operator",
-      "check-separator",
-      "check-type"
-    ],
-    "import-destructuring-spacing": true
+      "check-separator"
+    ]
   }
 }

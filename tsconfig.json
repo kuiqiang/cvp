@@ -8,9 +8,9 @@
     "noEmitHelpers": true
   },
   "exclude": [
-    "./node_modules",
-    "./typings/main.d.ts",
-    "./typings/main"
+    "node_modules",
+    "typings/main.d.ts",
+    "typings/main"
   ],
   "filesGlob": [
     "./src/app/**/*.ts",
@@ -25,5 +25,7 @@
   },
   "compileOnSave": false,
   "buildOnSave": false,
-  "atom": { "rewriteTsconfig": false }
+  "atom": {
+    "rewriteTsconfig": false
+  }
 }
