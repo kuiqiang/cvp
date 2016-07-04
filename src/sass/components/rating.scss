@@ -1,0 +1,47 @@
+.rating {
+  $height: 20px;
+
+  height: $height;
+  color: dimgray;
+
+  .stars {
+    display: inline-block;
+
+    .fa {
+      cursor: pointer;
+    }
+
+    .fa-star-o, .fa-star {
+      padding-right: 4px;
+    }
+
+    &.no-action {
+      .fa {
+        cursor: initial;
+      }
+    }
+  }
+
+  .rate-control {
+    color: darkgray;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: $xxs-gutter;
+
+    &:hover {
+      color: dimgray;
+      text-decoration: underline;
+    }
+  }
+
+  .error {
+    display: inline-block;
+    color: $error;
+  }
+
+  .rating {
+    font-size: smaller;
+  }
+
+  @include spinner;
+}

@@ -1,0 +1,71 @@
+form {
+  .form-control {
+    border-radius: 0;
+    height: $md-gutter;
+    border: none;
+    box-shadow: none !important;
+    border-bottom: 1px solid lightgray;
+    transition: none;
+    padding: 0 $xxs-gutter / 2;
+
+    &:hover, &:active, &:focus {
+      box-shadow: none;
+      border-color: $contrast2;
+    }
+
+    @include max-width($screen-sm-max) {
+      margin: $xxs-gutter 0;
+    }
+  }
+
+  .form-control[disabled] {
+    &:hover {
+      border-bottom: 1px solid $disabled;
+    }
+  }
+
+  .form-group {
+    margin-bottom: $sm-gutter;
+  }
+
+  .error {
+    color: $error;
+    margin-top: $xxs-gutter;
+  }
+
+  .radio {
+    margin: $xxs-gutter;
+
+    input[type=radio] {
+      margin-left: -19px;
+    }
+
+    label {
+      display: inline-block;
+    }
+
+    * {
+      line-height: inherit !important;
+    }
+  }
+
+  .select {
+    position: relative;
+
+    i {
+      position: absolute;
+      pointer-events: none;
+      top: 50%;
+      right: 0;
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+    }
+  }
+
+  .has-error {
+    border-color: $error;
+  }
+}

@@ -1,6 +1,8 @@
 import {Component} from "@angular/core";
+import {NgForm} from "@angular/common";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth/auth.service";
+import {PATHS} from "../../shared/paths";
 
 @Component({
     selector: "cvp-auth",
@@ -18,14 +20,16 @@ export class AuthFormComponent {
     /**
      * Respond when the user submits the form
      */
-    private _onSubmit() {
-        this._authService.login(this._username, this._password)
-            .then(() => {
-                this._router.navigate(["/"]);
-            })
-            .catch(error => {
-                this._handleError(error);
-            });
+    private _onSubmit(form:NgForm) {
+        if (form.valid) {
+            this._authService.login(this._username, this._password)
+                .then(() => {
+                    this._router.navigate([PATHS.index]);
+                })
+                .catch(error => {
+                    this._handleError(error);
+                });
+        }
     }
 
     /**
@@ -35,8 +39,10 @@ export class AuthFormComponent {
      * @private
      */
     private _handleError(error:any) {
-        this._hasError = true;
-        this._error = error;
+        setTimeout(() => {
+            this._hasError = true;
+            this._error = error;
+        });
     }
 
     /**
@@ -45,7 +51,9 @@ export class AuthFormComponent {
      * @private
      */
     private _clearError() {
-        this._hasError = false;
-        this._error = "";
+        setTimeout(() => {
+            this._hasError = false;
+            this._error = "";
+        });
     }
 }

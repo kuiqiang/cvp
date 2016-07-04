@@ -1,0 +1,10 @@
+.disabled {
+  * {
+    color: $disabled !important;
+    cursor: initial !important;
+
+    &:hover {
+      color: $disabled !important;
+    }
+  }
+}

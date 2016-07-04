@@ -1,0 +1,94 @@
+.video {
+  $titleHeight: 55px;
+  $videoPlayerHeight: 120px;
+  $descriptionHeight: 100px;
+
+  margin: $sm-gutter 0;
+
+  @include max-width($screen-xs-max) {
+    margin-bottom: $lg-gutter;
+  }
+
+  .title {
+    max-height: $titleHeight;
+    overflow: hidden;
+    border-left: 4px solid $contrast1;
+    padding-left: $xs-gutter;
+    cursor: pointer;
+    @include clampLines(2);
+
+    @include min-width($screen-sm-min) {
+      height: $titleHeight;
+    }
+
+    @include max-width($screen-xs-max) {
+      line-height: 1.15;
+    }
+
+    &:hover, &:active, &:focus {
+      border-left: 4px solid $contrast2;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+
+      &:hover, &:active, &:focus {
+        color: inherit;
+      }
+    }
+  }
+
+  .video-player {
+    height: $videoPlayerHeight;
+    background: black;
+    margin: $sm-gutter 0;
+    position: relative;
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      cursor: pointer;
+
+      .fa {
+        @extend .vertical-center;
+        font-size: $font-size-h2;
+        left: 48%;
+        visibility: hidden;
+        color: white;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.7);
+
+        .fa {
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  .description-container {
+    padding: $sm-gutter 0;
+    border-bottom: 1px solid lightgray;
+
+    .description {
+      max-height: $descriptionHeight;
+      overflow: hidden;
+      @include clampLines(5);
+
+      @include min-width($screen-sm-min) {
+        height: $descriptionHeight;
+      }
+    }
+  }
+}
+
+.lazy-load {
+  @include spinner($md-gutter, $md-gutter, $lg-gutter, gray);
+  text-align: center;
+}

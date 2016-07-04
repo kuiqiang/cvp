@@ -1,0 +1,11 @@
+body {
+  padding-top: $navbar-height;
+
+  .container-fluid {
+    padding-top: $lg-gutter;
+
+    @include max-width($screen-xs-max) {
+      padding: $sm-gutter 0;
+    }
+  }
+}

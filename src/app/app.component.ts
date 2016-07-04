@@ -1,6 +1,5 @@
 import {Component, ViewEncapsulation} from "@angular/core";
 import {NavbarComponent} from "./components/navbar/navbar.component";
-import {CONSTANTS} from "./shared";
 
 @Component({
     selector: "cvp-app",
@@ -10,9 +9,9 @@ import {CONSTANTS} from "./shared";
     directives: [NavbarComponent]
 })
 export class AppComponent {
-    public appBrand:string;
-
+    /**
+     * Bootstrap application
+     */
     constructor() {
-        this.appBrand = CONSTANTS.MAIN.APP.BRAND;
     }
 }

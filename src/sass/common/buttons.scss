@@ -1,0 +1,40 @@
+button, .btn, input[type=button], input[type=submit] {
+  padding: $xs-gutter;
+  background: $contrast2;
+  box-shadow: none;
+  color: white;
+  border: none;
+  font-weight: bolder;
+  border-radius: 2px;
+  text-transform: uppercase;
+
+  &:hover, &:active, &:focus {
+    background: $contrast2;
+    color: white;
+    box-shadow: none;
+    outline: none;
+  }
+
+  &[disabled] {
+    background: $disabled;
+    border: none;
+
+    &:hover {
+      background: $disabled;
+      color: white;
+      box-shadow: none;
+    }
+  }
+
+  span {
+    vertical-align: middle;
+  }
+}
+
+button::-moz-focus-inner {
+  border: none;
+}
+
+a, a:hover, a:active, a:focus {
+  outline: 0;
+}

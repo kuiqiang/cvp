@@ -1,0 +1,34 @@
+<div class="video video-details col-sm-8" *ngIf="_video">
+    <h2 class="title">{{_video.name}}</h2>
+    <div align="center" class="video-player embed-responsive embed-responsive-16by9">
+        <div class="overlay" (click)="_playVideo(_video._id)" [hidden]="_activeVideoId === _video._id">
+            <i class="fa fa-play" aria-hidden="true"></i>
+        </div>
+        <video id="{{_video._id}}" class="embed-responsive-item" [controls]="_activeVideoId === _video._id">
+            <source src="{{_video.url}}" type="video/mp4">
+        </video>
+    </div>
+    <rating [videoId]="_video._id" [ratings]="_video.ratings" (rate)="_onRate($event)"></rating>
+    <div class="description-container">
+        <div class="description">{{_video.description}}</div>
+    </div>
+</div>
+<div class="video-suggestions col-sm-4">
+    <div *ngFor="let video of _suggestedVideos; let i = index">
+        <div class="video">
+            <h4 class="title"><a [routerLink]="['/' + _paths.video, video._id]">{{video.name}}</a></h4>
+            <div align="center" class="video-player embed-responsive embed-responsive-16by9">
+                <div class="overlay" (click)="_playVideo(video._id)" [hidden]="_activeVideoId === video._id">
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                </div>
+                <video id="{{video._id}}" class="embed-responsive-item" [controls]="_activeVideoId === video._id">
+                    <source src="{{video.url}}" type="video/mp4">
+                </video>
+            </div>
+            <rating [videoId]="video._id" [ratings]="video.ratings" (rate)="_onRate($event, i)"></rating>
+            <div class="description-container">
+                <div class="description">{{video.description}}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,8 +5,5 @@
  * run `typings install x` where `x` is your module
  */
 
-if ("production" === ENV) {
-// Production
-} else {
-// Development
-}
+import "jquery";
+import "bootstrap-sass";

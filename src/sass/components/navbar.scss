@@ -1,0 +1,51 @@
+.navbar {
+  background-color: $primary;
+
+  .navbar-brand {
+    color: white;
+    font-weight: bolder;
+
+    &:hover, &:active, &:focus {
+      color: white;
+    }
+  }
+
+  .navbar-toggle {
+    border: none;
+    background: none;
+    padding: $xs-gutter;
+
+    &:hover, &:active, &:focus {
+      background: none;
+    }
+
+    .icon-bar {
+      background: white;
+    }
+  }
+
+  .navbar-nav {
+    a {
+      cursor: pointer;
+      font-weight: bolder;
+
+      @include min-width($screen-sm-min) {
+        color: white !important;
+
+        &:hover, &:active, &:hover {
+          color: white !important;
+        }
+      }
+    }
+  }
+
+  .navbar-collapse {
+    @include max-width($screen-xs-max) {
+      background: white !important;
+    }
+  }
+
+  .fa {
+    padding-right: $xxs-gutter;
+  }
+}

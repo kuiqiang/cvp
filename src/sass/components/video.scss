@@ -1,0 +1,36 @@
+.video-details {
+  $titleHeight: 34px;
+
+  padding-right: $lg-gutter;
+  margin-bottom: $md-gutter !important;
+
+  .title {
+    height: $titleHeight !important;
+    border: none !important;
+    padding-left: 0 !important;
+  }
+
+  .description-container {
+    border-bottom: none !important;
+
+    .description {
+      height: auto !important;
+      display: block !important;
+      -webkit-line-clamp: initial !important;
+    }
+  }
+}
+
+.video-suggestions {
+  $titleHeight: 20px;
+
+  margin-top: $md-gutter !important;
+
+  @include max-width($screen-xs-max) {
+    border-top: 1px solid dimgray;
+  }
+
+  .title {
+    height: $titleHeight !important;
+  }
+}

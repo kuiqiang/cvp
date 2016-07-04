@@ -1,0 +1,33 @@
+/* Webkit only */
+@mixin clampLines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+@mixin spinner($width:$xs-gutter, $height: $xs-gutter, $margin: 0, $color: $contrast2) {
+  .spinner {
+    width: $width;
+    height: $height;
+    margin: $margin auto;
+    background-color: $color;
+    display: inline-block;
+
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+}
+
+@mixin max-width($width) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin min-width($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}

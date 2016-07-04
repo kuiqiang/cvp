@@ -1,0 +1,34 @@
+.login {
+  $maxWidth: 400px;
+
+  padding-top: $md-gutter;
+  max-width: $maxWidth;
+
+  @include min-width($screen-sm-min) {
+    padding-top: $lg-gutter;
+  }
+
+  .title {
+    text-transform: lowercase;
+    color: lightgray;
+    display: inline;
+  }
+
+  .name {
+    margin-left: $xxs-gutter;
+    padding-left: $xs-gutter;
+    text-transform: uppercase;
+    font-weight: bolder;
+    color: dimgray;
+    border-left: 3px solid $contrast1;
+  }
+
+  form {
+    margin-top: $md-gutter;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .btn {
+    margin-top: $sm-gutter;
+  }
+}

@@ -227,8 +227,15 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             chunksSortMode: 'dependency'
-        })
+        }),
 
+        /*
+         * http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
+         */
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
     ],
 
     /*

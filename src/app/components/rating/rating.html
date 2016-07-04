@@ -1,0 +1,36 @@
+<div class="rating">
+    <div [hidden]="_editMode">
+        <div class="stars no-action">
+            <i *ngFor="let rating of _RATINGS; let i = index" class="fa" aria-hidden="true"
+               [class.fa-star]="i + 1 <= _getAverageRating()"
+               [class.fa-star-o]="i + 1 > _getAverageRating()"></i>
+        </div>
+        <span class="rating">{{_getAverageRating().toFixed(1)}} / 5.0</span>
+        <div class="rate-control pull-right" (click)="_enterEditMode()">Rate</div>
+    </div>
+
+    <div [hidden]="!_editMode" [class.disabled]="_isPending()">
+        <div class="stars">
+            <i *ngFor="let rating of _RATINGS" class="fa" aria-hidden="true"
+               [class.fa-star]="rating <= _tmpRating"
+               [class.fa-star-o]="rating > _tmpRating"
+               (mouseover)="_setTmpRating(rating)"
+               (mouseout)="_resetTmpRating()"
+               (mouseup)="_rate(rating)">
+            </i>
+        </div>
+
+        <div class="pull-right">
+            <spinner [hidden]="!_isPending()"></spinner>
+            <div class="error" *ngIf="_hasFailed()">
+                <i class="fa fa-warning" aria-hidden="true"></i>
+            </div>
+            <div [class.disabled]="!_rating" class="rate-control" (click)="_onSubmit()">
+                <i class="fa fa-check" aria-hidden="true"></i>
+            </div>
+            <div class="rate-control" (click)="_exitEditMode()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+</div>
