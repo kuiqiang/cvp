@@ -74,13 +74,13 @@ export class VideosComponent extends PlaysVideoTrait {
      * @private
      */
     private _lazyLoadVideos() {
-        $(window).scroll(() => {
+        window.onscroll = () => {
             if (this._reachedBottom()) {
                 this._zone.run(() => {
                     this._loadVideos();
                 });
             }
-        });
+        };
     }
 
     /**
@@ -90,7 +90,7 @@ export class VideosComponent extends PlaysVideoTrait {
      * @private
      */
     private _reachedBottom() {
-        return $(window).scrollTop() + $(window).height() === $(document).height();
+        return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
     }
 
     /**
