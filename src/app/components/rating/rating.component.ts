@@ -80,7 +80,7 @@ export class RatingComponent extends EditableComponent {
 
         return average > MAXIMUM_RATING ? MAXIMUM_RATING : average;
     }
-    
+
     /**
      * Fix the video rating
      *

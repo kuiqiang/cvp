@@ -7,6 +7,7 @@ import {RatingComponent} from "../rating/rating.component";
 import {PATHS} from "../../shared/paths";
 import {CONFIG} from "../../shared/config";
 import {PlaysVideoTrait} from "../../classes/plays-video.trait";
+import {Helper} from "../../classes/helper.class";
 
 @Component({
     selector: "cvp-video",
@@ -40,20 +41,9 @@ export class VideoComponent extends PlaysVideoTrait {
                     this._stopVideo(activeVideo);
                 }
             },
-            VideoComponent._handleError
+            Helper.handleError
         );
     }
-
-    /**
-     * Handle error
-     *
-     * @param error
-     * @private
-     */
-    private static _handleError(error:any) {
-        console.error(error);
-    }
-
     /**
      * Load main video
      *
@@ -67,10 +57,10 @@ export class VideoComponent extends PlaysVideoTrait {
                 if (data.status === "success") {
                     this._video = data.data;
                 } else {
-                    VideoComponent._handleError("Could not load video.");
+                    Helper.handleError("Could not load video.");
                 }
             },
-            VideoComponent._handleError
+            Helper.handleError
         );
     }
 
@@ -87,10 +77,10 @@ export class VideoComponent extends PlaysVideoTrait {
                 if (data.status === "success") {
                     this._suggestedVideos = data.data;
                 } else {
-                    VideoComponent._handleError("Could not load videos.");
+                    Helper.handleError("Could not load videos.");
                 }
             },
-            VideoComponent._handleError
+            Helper.handleError
         );
     }
 

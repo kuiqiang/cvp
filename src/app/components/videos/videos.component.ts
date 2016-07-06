@@ -7,6 +7,7 @@ import {CONFIG} from "../../shared/config";
 import {RatingComponent} from "../rating/rating.component";
 import {SpinnerComponent} from "../spinner/spinner";
 import {PlaysVideoTrait} from "../../classes/plays-video.trait";
+import {Helper} from "../../classes/helper.class";
 
 @Component({
     selector: "cvp-videos",
@@ -32,16 +33,6 @@ export class VideosComponent extends PlaysVideoTrait {
     }
 
     /**
-     * Handle error
-     *
-     * @param error
-     * @private
-     */
-    private static _handleError(error:any) {
-        console.error(error);
-    }
-
-    /**
      * Load videos
      *
      * @private
@@ -57,10 +48,10 @@ export class VideosComponent extends PlaysVideoTrait {
                     if (data.status === "success") {
                         this._videos = this._videos.concat(data.data);
                     } else {
-                        VideosComponent._handleError("Could not load videos.");
+                        Helper.handleError("Could not load videos.");
                     }
                 },
-                VideosComponent._handleError,
+                Helper.handleError,
                 () => {
                     this._loading = false;
                 }
