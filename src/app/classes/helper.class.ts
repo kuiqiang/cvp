@@ -8,5 +8,4 @@ export class Helper {
     static handleError(error:any) {
         console.error(error);
     }
-
 }

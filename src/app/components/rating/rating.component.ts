@@ -1,9 +1,10 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Http, Headers} from "@angular/http";
-import {EditableComponent} from "../../classes/editable-component.class";
-import {PATHS} from "../../shared/paths";
 import {SpinnerComponent} from "../spinner/spinner";
 import {AuthService} from "../../services/auth/auth.service";
+import {EditableComponent} from "../editable/editable.component";
+import {PATHS} from "../../shared/paths";
+import "rxjs/add/operator/do";
 
 @Component({
     selector: "rating",
@@ -29,39 +30,29 @@ export class RatingComponent extends EditableComponent {
     /**
      * Respond when the user submits changes
      *
-     * @private
+     * @returns {Thenable<U>}
      */
-    protected _onSubmit() {
-        if (this._isPending() || !this._rating)
+    submit() {
+        if (this.isPending || !this._rating)
             return;
 
         let headers = new Headers({"Content-Type": "application/json"});
         let payload = JSON.stringify({videoId: this._videoId, rating: this._rating});
 
-        this._togglePendingStatus();
-        this._http.post(`/${PATHS.rate}?sessionId=${this._authService.sessionId}`, payload, {headers: headers}).subscribe(
-            response => {
-                if (response.json().status === "success") {
-                    this._handleSuccess();
-                } else {
-                    this._handleError(response.json().message);
+        this.togglePendingStatus();
+        return this._http.post(`/${PATHS.rate}?sessionId=${this._authService.sessionId}`, payload, {headers: headers})
+            .map(response => response.json())
+            .toPromise()
+            .then(
+                response => {
+                    if (response.status === "success") {
+                        this._handleSuccess();
+                    } else {
+                        this._handleError(response.message);
+                    }
                 }
-            },
-            error => {
-                this._handleError(error);
-            }
-        );
-    }
-
-    /**
-     * Set the default value of the component
-     *
-     * @private
-     */
-    protected _setDefaultValue() {
-        this._rated = false;
-        this._rating = 0;
-        this._resetTmpRating();
+            )
+            .catch(error => this._handleError(error));
     }
 
     /**
@@ -69,7 +60,7 @@ export class RatingComponent extends EditableComponent {
      *
      * @returns {number}
      */
-    private _getAverageRating() {
+    getAverageRating() {
         let sum = 0, MAXIMUM_RATING = this._RATINGS[this._RATINGS.length - 1], average:number;
 
         for (let i = 0; i < this._ratings.length; i++) {
@@ -84,10 +75,10 @@ export class RatingComponent extends EditableComponent {
     /**
      * Fix the video rating
      *
-     * @private
+     * @param rating
      */
-    private _rate(rating:number) {
-        if (this._isPending())
+    rate(rating:number) {
+        if (this.isPending)
             return;
 
         this._rated = true;
@@ -95,16 +86,44 @@ export class RatingComponent extends EditableComponent {
     }
 
     /**
-     * Set temporary rating
+     * Set the  temporary rating
      *
      * @param rating
-     * @private
      */
-    private _setTmpRating(rating:number) {
-        if (this._isPending())
+    setTmpRating(rating:number) {
+        if (this.isPending)
             return;
 
         this._tmpRating = rating;
+    }
+
+    /**
+     * Get the rating
+     *
+     * @returns {number}
+     */
+    get rating():number {
+        return this._rating;
+    }
+
+    /**
+     * Get the temporary rating
+     *
+     * @returns {number}
+     */
+    get tmpRating():number {
+        return this._tmpRating;
+    }
+
+    /**
+     * Set the default value of the component
+     *
+     * @private
+     */
+    protected _setDefaultValue() {
+        this._rated = false;
+        this._rating = 0;
+        this._resetTmpRating();
     }
 
     /**
@@ -113,7 +132,7 @@ export class RatingComponent extends EditableComponent {
      * @private
      */
     private _resetTmpRating() {
-        if (this._isPending())
+        if (this.isPending)
             return;
 
         this._tmpRating = this._rated ? this._rating : 0;
@@ -125,8 +144,8 @@ export class RatingComponent extends EditableComponent {
      * @private
      */
     private _handleSuccess() {
-        this._toggleIdleStatus();
-        this._exitEditMode();
+        this.toggleIdleStatus();
+        this.exitEditMode();
         this._update.emit(this._rating);
     }
 }

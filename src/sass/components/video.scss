@@ -1,8 +1,15 @@
 .video-details {
   $titleHeight: 34px;
 
-  padding-right: $lg-gutter;
   margin-bottom: $md-gutter !important;
+
+  @include min-width($screen-sm-min) {
+    padding-right: $lg-gutter;
+  }
+
+  @include max-width($screen-xs-max) {
+    padding: 0;
+  }
 
   .title {
     height: $titleHeight !important;
@@ -22,11 +29,12 @@
 }
 
 .video-suggestions {
-  $titleHeight: 20px;
+  $titleHeight: 21px;
 
   margin-top: $md-gutter !important;
 
   @include max-width($screen-xs-max) {
+    padding: 0;
     border-top: 1px solid dimgray;
   }
 

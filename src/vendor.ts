@@ -7,3 +7,4 @@
 
 import "jquery";
 import "bootstrap-sass";
+import "assets/js/web-animations-next-lite.min.js";

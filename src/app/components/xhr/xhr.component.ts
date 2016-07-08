@@ -8,12 +8,21 @@ export class XHRComponent {
     private _status:number;
 
     /**
+     * Get status number
+     *
+     * @returns {number}
+     */
+    get status():number {
+        return this._status;
+    }
+
+    /**
      * Get whether component is idle
      *
      * @returns {boolean}
      * @private
      */
-    protected _isIdle() {
+    get isIdle() {
         return this._status === this.STATUSES.idle;
     }
 
@@ -23,7 +32,7 @@ export class XHRComponent {
      * @returns {boolean}
      * @private
      */
-    protected _isPending() {
+    get isPending() {
         return this._status === this.STATUSES.pending;
     }
 
@@ -33,7 +42,7 @@ export class XHRComponent {
      * @returns {boolean}
      * @private
      */
-    protected _hasFailed() {
+    get hasFailed() {
         return this._status === this.STATUSES.failed;
     }
 
@@ -42,7 +51,7 @@ export class XHRComponent {
      *
      * @private
      */
-    protected _toggleIdleStatus() {
+    toggleIdleStatus() {
         this._status = this.STATUSES.idle;
     }
 
@@ -51,7 +60,7 @@ export class XHRComponent {
      *
      * @private
      */
-    protected _togglePendingStatus() {
+    togglePendingStatus() {
         this._status = this.STATUSES.pending;
     }
 
@@ -60,7 +69,18 @@ export class XHRComponent {
      *
      * @private
      */
-    protected _toggleFailedStatus() {
+    toggleFailedStatus() {
         this._status = this.STATUSES.failed;
+    }
+
+    /**
+     * Handle error
+     *
+     * @param error
+     * @private
+     */
+    protected _handleError(error:any) {
+        this.toggleFailedStatus();
+        console.error(error);
     }
 }

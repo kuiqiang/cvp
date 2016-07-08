@@ -1,22 +1,22 @@
 import {Component, NgZone} from "@angular/core";
 import {Http} from "@angular/http";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 import {Video} from "../../classes/video.class";
 import {AuthService} from "../../services/auth/auth.service";
 import {PATHS} from "../../shared/paths";
 import {CONFIG} from "../../shared/config";
 import {RatingComponent} from "../rating/rating.component";
 import {SpinnerComponent} from "../spinner/spinner";
-import {PlaysVideoTrait} from "../../classes/plays-video.trait";
-import {Helper} from "../../classes/helper.class";
+import {PlaysVideoComponent} from "../plays-video/plays-video.component";
 
 @Component({
     selector: "cvp-videos",
     template: require("./videos.html"),
-    directives: [RatingComponent, SpinnerComponent]
+    directives: [ROUTER_DIRECTIVES, RatingComponent, SpinnerComponent],
+    animations: CONFIG.ANIMATIONS.FADE_IN
 })
-export class VideosComponent extends PlaysVideoTrait {
+export class VideosComponent extends PlaysVideoComponent {
     private _videos:Array<Video> = [];
-    private _loading:boolean;
     private _paths = PATHS;
 
     /**
@@ -24,39 +24,60 @@ export class VideosComponent extends PlaysVideoTrait {
      *
      * @param _http
      * @param _authService
+     * @param _zone
      */
     constructor(private _http:Http, private  _authService:AuthService, private _zone:NgZone) {
         super();
+    }
 
-        this._loadVideos();
-        this._lazyLoadVideos();
+    /**
+     * Load videos after initialization
+     */
+    ngOnInit() {
+        this.loadVideos();
+        this.lazyLoadVideos();
+    }
+
+    /**
+     * Get videos
+     *
+     * @returns {Array<Video>}
+     */
+    get videos():Array<Video> {
+        return this._videos;
+    }
+
+    /**
+     * Set videos
+     *
+     * @param value
+     */
+    set videos(value:Array<Video>) {
+        this._videos = value;
     }
 
     /**
      * Load videos
      *
-     * @private
+     * @returns {Thenable<U>}
      */
-    private _loadVideos() {
-        if (!this._loading) {
-            this._loading = true;
+    loadVideos() {
+        if (this.isPending)
+            return;
 
-            this._http.get(`/${PATHS.videos}${this._getQueryString()}`).subscribe(
-                response => {
-                    let data = response.json();
-
-                    if (data.status === "success") {
-                        this._videos = this._videos.concat(data.data);
-                    } else {
-                        Helper.handleError("Could not load videos.");
-                    }
-                },
-                Helper.handleError,
-                () => {
-                    this._loading = false;
+        this.togglePendingStatus();
+        return this._http.get(`/${PATHS.videos}${this._getQueryString()}`)
+            .map(response => response.json())
+            .toPromise()
+            .then(response => {
+                if (response.status === "success") {
+                    this._videos = this._videos.concat(response.data);
+                    this.toggleIdleStatus();
+                } else {
+                    this._handleError(response.error);
                 }
-            );
-        }
+            })
+            .catch(error => this._handleError(error));
     }
 
     /**
@@ -64,14 +85,24 @@ export class VideosComponent extends PlaysVideoTrait {
      *
      * @private
      */
-    private _lazyLoadVideos() {
+    lazyLoadVideos() {
         window.onscroll = () => {
-            if (this._reachedBottom()) {
-                this._zone.run(() => {
-                    this._loadVideos();
-                });
-            }
+            this._zone.run(() => {
+                if (this._reachedBottom()) {
+                    this.loadVideos();
+                }
+            });
         };
+    }
+
+    /**
+     * Handle video rating update
+     *
+     * @param rating
+     * @param i
+     */
+    onRate(rating:number, i:number) {
+        this._videos[i].ratings.push(rating);
     }
 
     /**
@@ -92,16 +123,5 @@ export class VideosComponent extends PlaysVideoTrait {
      */
     private _getQueryString() {
         return `?sessionId=${this._authService.sessionId}&skip=${this._videos.length}&limit=${CONFIG.SETTINGS.LAZY_LOAD_BATCH_SIZE}`;
-    }
-
-    /**
-     * Handle video rating update
-     *
-     * @param rating
-     * @param i
-     * @private
-     */
-    private _onRate(rating:number, i:number) {
-        this._videos[i].ratings.push(rating);
     }
 }
